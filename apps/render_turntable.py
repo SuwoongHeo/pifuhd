@@ -54,7 +54,7 @@ def make_rotate(rx, ry, rz):
 
     R = np.matmul(np.matmul(Rz,Ry),Rx)
     return R
-
+print("Start the code {}".format(__file__))
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', '--file_dir', type=str, required=True)
 parser.add_argument('-ww', '--width', type=int, default=512)

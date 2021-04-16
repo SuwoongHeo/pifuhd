@@ -3,8 +3,8 @@
 import os
 import argparse
 import trimesh
-
-
+import logging
+trimesh.util.log.setLevel(logging.DEBUG)
 def meshcleaning(file_dir):
     files = sorted([f for f in os.listdir(file_dir) if '.obj' in f])
     for i, file in enumerate(files):

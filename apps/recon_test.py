@@ -31,8 +31,8 @@ from PIL import Image
 parser = BaseOptions()
 
 def gen_mesh(res, net, cuda, data, save_path, thresh=0.5, use_octree=True, components=False):
-    image_tensor_global = data['img_512'].to(device=cuda)
-    image_tensor = data['img'].to(device=cuda)
+    image_tensor_global = data['img_512'].to(device=cuda) # 512x512
+    image_tensor = data['img'].to(device=cuda) # 1024x1024
     calib_tensor = data['calib'].to(device=cuda)
 
     net.filter_global(image_tensor_global)
@@ -127,6 +127,8 @@ def gen_mesh_imgColor(res, net, cuda, data, save_path, thresh=0.5, use_octree=Tr
     except Exception as e:
         print(e)
 
+def gen_mesh_fbpair(res, net, cuda, data, save_path, thresh=0.5, use_octree=True, components=False):
+    pass
 
 def recon(opt, use_rect=False):
     # load checkpoints
@@ -214,8 +216,7 @@ def recon(opt, use_rect=False):
                     test_data = test_dataset[i]
                     print('test # {} with {}'.format(j, test_dataset.img_files[i]))
                     save_path = '%s/%s/recon/result_%s_%d.obj' % (opt.results_path, opt.name, test_data['name'], j)
-                    # gen_mesh(opt.resolution, netMR, cuda, test_data, save_path, components=opt.use_compose)
-                    gen_mesh_imgColor(opt.resolution, netMR, cuda, test_data, save_path, components=opt.use_compose)
+                    gen_mesh(opt.resolution, netMR, cuda, test_data, save_path, components=opt.use_compose)
 
 def reconWrapper(args=None, use_rect=False):
     opt = parser.parse(args)

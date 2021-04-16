@@ -1,9 +1,12 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All rights reserved.
 
 
-from .recon import reconWrapper
+# from .recon import reconWrapper
+from recon_test import reconWrapper
 import argparse
 import os
+os.chdir('../')
+
 
 ###############################################################################################
 ##                   Setting
@@ -14,15 +17,12 @@ parser.add_argument('-o', '--out_path', type=str, default='./results')
 parser.add_argument('-c', '--ckpt_path', type=str, default='./checkpoints/pifuhd.pt')
 parser.add_argument('-r', '--resolution', type=int, default=512)
 parser.add_argument('--use_rect', action='store_true', help='use rectangle for cropping')
-parser.add_argument('--gpu_id', default='0', type=str, help='index of gpu usage (-1 for cpu)')
 args = parser.parse_args()
 ###############################################################################################
 ##                   Upper PIFu
 ###############################################################################################
 
 resolution = str(args.resolution)
-os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_id
 
 start_id = -1
 end_id = -1

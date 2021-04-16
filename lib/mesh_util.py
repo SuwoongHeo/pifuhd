@@ -67,13 +67,17 @@ def reconstruction(net, cuda, calib_tensor,
         return pred.detach().cpu().numpy()
 
     # Then we evaluate the grid
+    import time
     if use_octree:
+        t = time.process_time()
         sdf = eval_grid_octree(coords, eval_func, num_samples=num_samples)
+        print('checktime {}'.format(time.process_time()-t))
     else:
         sdf = eval_grid(coords, eval_func, num_samples=num_samples)
 
     # Finally we do marching cubes
     try:
+        t = time.process_time()
         verts, faces, normals, values = measure.marching_cubes_lewiner(sdf, thresh)
         # transform verts into world coordinate system
         trans_mat = np.matmul(calib_inv, mat)
@@ -82,6 +86,7 @@ def reconstruction(net, cuda, calib_tensor,
         # in case mesh has flip transformation
         if np.linalg.det(trans_mat[:3, :3]) < 0.0:
             faces = faces[:,::-1]
+        print('checktime {}'.format(time.process_time() - t))
         return verts, faces, normals, values
     except:
         print('error cannot marching cubes')

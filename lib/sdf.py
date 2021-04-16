@@ -97,6 +97,8 @@ def eval_grid_octree(coords, eval_func,
     reso = resolution[0] // init_resolution
 
     while reso > 0:
+        # import time
+        # t = time.process_time()
         # subdivide the grid
         grid_mask[0:resolution[0]:reso, 0:resolution[1]:reso, 0:resolution[2]:reso] = True
         # test samples in this iteration
@@ -147,5 +149,8 @@ def eval_grid_octree(coords, eval_func,
             sdf[x:(x+reso+1), y:(y+reso+1), z:(z+reso+1)] = v[x//reso,y//reso,z//reso]
             notprocessed[x:(x+reso+1), y:(y+reso+1), z:(z+reso+1)] = False
         reso //= 2
+
+        # elapsed = time.process_time() - t
+        # print(elapsed)
 
     return sdf.reshape(resolution)
